@@ -17,7 +17,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 storage = MemoryStorage()
-TOKEN = os.getenv('BOT_TOKEN')
+TOKEN = os.getenv('TOKEN_API')
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
