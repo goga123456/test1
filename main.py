@@ -51,7 +51,45 @@ range_name6 = 'Статистика нажатий!G2'
 range_name7 = 'Статистика нажатий!H2'
 range_name8 = 'Статистика нажатий!I2'
 
+range_name9 = 'Статистика нажатий!A4'
+range_name10 = 'Статистика нажатий!A6'
+range_name11 = 'Статистика нажатий!A8'
+range_name12 = 'Статистика нажатий!A10'
 
+range_name13 = 'Статистика нажатий!B4'
+range_name14 = 'Статистика нажатий!B6'
+range_name15 = 'Статистика нажатий!B8'
+range_name16 = 'Статистика нажатий!B10'
+range_name17 = 'Статистика нажатий!B12'
+range_name18 = 'Статистика нажатий!B14'
+
+range_name19 = 'Статистика нажатий!C4'
+range_name20 = 'Статистика нажатий!C6'
+range_name21 = 'Статистика нажатий!C8'
+range_name22 = 'Статистика нажатий!C10'
+
+range_name23 = 'Статистика нажатий!D4'
+range_name24 = 'Статистика нажатий!D6'
+range_name25 = 'Статистика нажатий!D8'
+range_name26 = 'Статистика нажатий!D10'
+range_name27 = 'Статистика нажатий!D12'
+range_name28 = 'Статистика нажатий!D14'
+range_name29 = 'Статистика нажатий!D16'
+
+range_name30 = 'Статистика нажатий!E4'
+range_name31 = 'Статистика нажатий!E6'
+range_name32 = 'Статистика нажатий!E8'
+
+
+range_name33 = 'Статистика нажатий!F4'
+range_name34 = 'Статистика нажатий!F6'
+range_name35 = 'Статистика нажатий!F8'
+
+range_name36 = 'Статистика нажатий!G4'
+
+range_name37 = 'Статистика нажатий!H4'
+range_name38 = 'Статистика нажатий!H6'
+range_name39 = 'Статистика нажатий!H8'
 async def select_number(rang):
     result = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
@@ -275,15 +313,27 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['how_add'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['how_add_text'][data['lang']])
+            num = await select_number(range_name9)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name9)
         if message.text == lang_dict['foreighn_kard'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['foreighn_kard_text'][data['lang']])
+            num = await select_number(range_name10)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name10)
         if message.text == lang_dict['cant_add'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['cant_add_text'][data['lang']])
+            num = await select_number(range_name11)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name11)
         if message.text == lang_dict['main_card'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['main_card_text'][data['lang']])
+            num = await select_number(range_name12)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name12)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -308,21 +358,39 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['what_paid'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['what_paid_text'][data['lang']])
+            num = await select_number(range_name13)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name13)
         if message.text == lang_dict['monitoring'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['monitoring_text'][data['lang']])
+            num = await select_number(range_name14)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name14)
         if message.text == lang_dict['choosen_paid'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['choosen_paid_text'][data['lang']])
+            num = await select_number(range_name15)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name15)
         if message.text == lang_dict['autopay'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['autopay_text'][data['lang']])
+            num = await select_number(range_name16)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name16)
         if message.text == lang_dict['autopay_reject'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['autopay_reject_text'][data['lang']])
+            num = await select_number(range_name17)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name17)
         if message.text == lang_dict['pay_reject'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['pay_reject_text'][data['lang']])
+            num = await select_number(range_name18)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name18)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -347,15 +415,27 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['transact_to_card'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['transact_to_card_text'][data['lang']])
+            num = await select_number(range_name19)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name19)
         if message.text == lang_dict['number_transaction'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['number_transaction_text'][data['lang']])
+            num = await select_number(range_name20)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name20)
         if message.text == lang_dict['request'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['request_text'][data['lang']])
+            num = await select_number(range_name21)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name21)
         if message.text == lang_dict['transact_reject'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['transact_reject_text'][data['lang']])
+            num = await select_number(range_name22)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name22)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -380,24 +460,45 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['kod_password'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['kod_password_text'][data['lang']])
+            num = await select_number(range_name23)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name23)
         if message.text == lang_dict['forgot_password'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['forgot_password_text'][data['lang']])
+            num = await select_number(range_name24)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name24)
         if message.text == lang_dict['invasion'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['invasion_text'][data['lang']])
+            num = await select_number(range_name25)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name25)
         if message.text == lang_dict['how_delete'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['how_delete_text'][data['lang']])
+            num = await select_number(range_name26)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name26)
         if message.text == lang_dict['conf_kod'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['conf_kod_text'][data['lang']])
+            num = await select_number(range_name27)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name27)
         if message.text == lang_dict['not_come'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['not_come_text'][data['lang']])
+            num = await select_number(range_name28)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name28)
         if message.text == lang_dict['cant_enter'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['cant_enter_text'][data['lang']])
+            num = await select_number(range_name29)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name29)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -422,12 +523,21 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['pays_story'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['pays_story_text'][data['lang']])
+            num = await select_number(range_name30)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name30)
         if message.text == lang_dict['monitoring_cost'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['monitoring_cost_text'][data['lang']])
+            num = await select_number(range_name31)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name31)
         if message.text == lang_dict['check'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['check_text'][data['lang']])
+            num = await select_number(range_name32)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name32)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -453,12 +563,21 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['what_is_beep'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['what_is_beep_text'][data['lang']])
+            num = await select_number(range_name33)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name33)
         if message.text == lang_dict['exchange'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['exchange_text'][data['lang']])
+            num = await select_number(range_name34)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name34)
         if message.text == lang_dict['cant_exchange'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['cant_exchange_text'][data['lang']])
+            num = await select_number(range_name35)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name35)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -483,6 +602,9 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['what_is_my_home'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['what_is_my_home_text'][data['lang']])
+            num = await select_number(range_name36)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name36)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -507,12 +629,21 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
         if message.text == lang_dict['welcome_bonus'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['welcome_bonus_text'][data['lang']])
+            num = await select_number(range_name37)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name37)
         if message.text == lang_dict['bonus_4g'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['bonus_4g_text'][data['lang']])
+            num = await select_number(range_name38)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name38)
         if message.text == lang_dict['bonus_50'][data['lang']]:
             await bot.send_message(chat_id=message.from_user.id,
                                    text=lang_dict['bonus_50_text'][data['lang']])
+            num = await select_number(range_name39)
+            updated_num = int(num) + 1
+            await update_number(updated_num, range_name39)
         if message.text == lang_dict['back'][data['lang']]:
             markup_buttons = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
             btn1 = types.KeyboardButton(lang_dict['kard'][data['lang']])
@@ -530,7 +661,6 @@ async def number_send(message: types.Message, state: FSMContext) -> None:
                                    text=lang_dict['cat'][data['lang']],
                                    reply_markup=markup_buttons)
             await ProfileStatesGroup.razdel.set()
-
 
 async def on_startup(dispatcher):
     await bot.set_webhook(WEBHOOK_URL, drop_pending_updates=True)
