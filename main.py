@@ -142,15 +142,18 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
                                text="Выберите вариант кнопкой!")
 async def send_message_to_livetex(token, message_data):
     url = f'https://bot-api.livetex.ru/bot/v1/{token}/message_btn'
+    headers = {'Content-Type': 'application/json'}  # Указываем тип содержимого
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=message_data) as response:
+        async with session.post(url, headers=headers, json=message_data) as response:
+            response_text = await response.text()  # Получаем текст ответа
             if response.status == 200:
                 print('Сообщение с кнопками успешно отправлено')
-                return await response.json()  # Возвращает ответ от LiveTex
+                return response_text
             else:
-                print('Ошибка при отправке сообщения с кнопками')
+                print(f'Ошибка при отправке сообщения с кнопками: {response.status}, {response_text}')
                 return None
-@dp.message_handler(lambda message: message.text == 'Связаться с оператором', state=ProfileStatesGroup.razdel)
+
+# Пример использования
 async def handle_contact_operator(message: types.Message):
     button_text = 'Хотите связаться с оператором?'
     button_options = [
@@ -166,7 +169,7 @@ async def handle_contact_operator(message: types.Message):
         'buttons': button_options
     }
     LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Используйте ваш токен интеграции
-    await send_message_to_livetex(LIVETEX_TOKEN, message_btn)              
+    await send_message_to_livetex(LIVETEX_TOKEN, message_btn)      
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
@@ -300,7 +303,9 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 updated_num = int(num) + 1
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
-            
+            if message.text == lang_dict['connect'][data['lang']]:
+                await handle_contact_operator(message: types.Message)
+                
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
                 await bot.send_message(chat_id=message.from_user.id,
