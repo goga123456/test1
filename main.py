@@ -1,3 +1,4 @@
+import aiohttp
 import logging
 import os
 import requests
@@ -139,14 +140,33 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
     except KeyError:
         await bot.send_message(chat_id=message.from_user.id,
                                text="Выберите вариант кнопкой!")
-"""      
-button_text = 'Хотите связаться с оператором?'
-button_options = ['Связаться']
-message_btn = {
-    'text': button_text,
-    'buttons': button_options
-}
-"""
+async def send_message_to_livetex(token, message_data):
+    url = f'https://bot-api.livetex.ru/bot/v1/{token}/message_btn'
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=message_data) as response:
+            if response.status == 200:
+                print('Сообщение с кнопками успешно отправлено')
+                return await response.json()  # Возвращает ответ от LiveTex
+            else:
+                print('Ошибка при отправке сообщения с кнопками')
+                return None
+@dp.message_handler(lambda message: message.text == lang_dict['connect'][message.from_user.language_code], state=ProfileStatesGroup.razdel)
+async def handle_contact_operator(message: types.Message):
+    button_text = 'Хотите связаться с оператором?'
+    button_options = [
+        {
+            "type": "textButton",
+            "label": "Связаться",
+            "payload": "contact_operator",
+            "cssClassName": "contact_button"
+        }
+    ]
+    message_btn = {
+        'text': button_text,
+        'buttons': button_options
+    }
+    LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Используйте ваш токен интеграции
+    await send_message_to_livetex(LIVETEX_TOKEN, message_btn)              
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
@@ -280,22 +300,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 updated_num = int(num) + 1
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
-
-            """  if message.text == lang_dict['connect'][data['lang']]:
-                button_text = 'Хотите связаться с оператором?'
-                button_options = ['Связаться']
-                message_btn = {
-                    'text': button_text,
-                    'buttons': button_options
-                }
-                LIVETEX_TOKEN = '6:0b3f3c77-de6c-4338-b860-8846bee8329d'
-                response = requests.post(f'https://bot-api.livetex.ru/bot/v1/{LIVETEX_TOKEN}/message_btn', json=message_btn)
-
-                # Проверьте статус ответа
-                if response.status_code == 200:
-                    print('Сообщение с кнопками успешно отправлено')
-                else:
-                    print('Ошибка при отправке сообщения с кнопками')"""
+            
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
                 await bot.send_message(chat_id=message.from_user.id,
