@@ -152,24 +152,7 @@ async def send_message_to_livetex(token, message_data):
             else:
                 print(f'Ошибка при отправке сообщения с кнопками: {response.status}, {response_text}')
                 return None
-
-# Пример использования
-async def handle_contact_operator(message: types.Message):
-    button_text = 'Хотите связаться с оператором?'
-    button_options = [
-        {
-            "type": "textButton",
-            "label": "Связаться",
-            "payload": "contact_operator",
-            "cssClassName": "contact_button"
-        }
-    ]
-    message_btn = {
-        'text': button_text,
-        'buttons': button_options
-    }
-    LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Используйте ваш токен интеграции
-    await send_message_to_livetex(LIVETEX_TOKEN, message_btn)      
+    
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
@@ -304,7 +287,21 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
             if message.text == lang_dict['connect'][data['lang']]:
-                await handle_contact_operator(message: types.Message)
+                button_text = 'Хотите связаться с оператором?'
+                button_options = [
+                     {
+                     "type": "textButton",
+                     "label": "Связаться",
+                     "payload": "contact_operator",
+                     "cssClassName": "contact_button"
+                     }
+                                ]
+                message_btn = {
+                   'text': button_text,
+                   'buttons': button_options
+                             }
+                LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Используйте ваш токен интеграции
+                await send_message_to_livetex(LIVETEX_TOKEN, message_btn)
                 
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
