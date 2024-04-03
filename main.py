@@ -36,6 +36,9 @@ WEBAPP_PORT = os.getenv('PORT', default=8000)
 dp = Dispatcher(bot,
                 storage=storage)
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 #Google sheets
 spreadsheet_id = '1FTuj1tq0Gy7GP3bP78K6UGMLltRU8DO3YSB7hCehgm0'
 RANGE_NAME_1 = 'Статистика нажатий'
@@ -296,6 +299,8 @@ async def menu(message: types.Message, state: FSMContext) -> None:
 
                 # Можете отправить подтверждение пользователю, что запрос на связь отправлен
                 await message.answer("Запрос на связь с оператором отправлен.")
+                logger.info(f"Отправка запроса к LiveTex: {url}, данные: {message_data}")
+                logger.info(f"Ответ от LiveTex: {response.status}, тело ответа: {response_text}")
                 
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
