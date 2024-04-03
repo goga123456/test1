@@ -150,7 +150,7 @@ async def send_message_to_livetex(token, message_data):
             else:
                 print('Ошибка при отправке сообщения с кнопками')
                 return None
-@dp.message_handler(lambda message: message.text == lang_dict['connect'][message.from_user.language_code], state=ProfileStatesGroup.razdel)
+@dp.message_handler(lambda message: message.text == lang_dict['connect'][data['lang']], state=ProfileStatesGroup.razdel)
 async def handle_contact_operator(message: types.Message):
     button_text = 'Хотите связаться с оператором?'
     button_options = [
