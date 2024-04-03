@@ -154,9 +154,10 @@ async def send_message_to_livetex(token, message_data):
                 return response_text
             else:
                 print(f'Ошибка при отправке сообщения с кнопками: {response.status}, {response_text}')
+                logger.info(f"Отправка запроса к LiveTex: {url}, данные: {message_data}")
+                logger.info(f"Ответ от LiveTex: {response.status}, тело ответа: {response_text}")
                 return None
-    logger.info(f"Отправка запроса к LiveTex: {url}, данные: {message_data}")
-    logger.info(f"Ответ от LiveTex: {response.status}, тело ответа: {response_text}")
+    
         
     
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
