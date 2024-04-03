@@ -141,7 +141,7 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
         await bot.send_message(chat_id=message.from_user.id,
                                text="Выберите вариант кнопкой!")
 async def send_message_to_livetex(token, message_data):
-    url = f'https://bot-api.livetex.ru/bot/v2/{token}/message_btn'
+    url = f'https://bot-api.livetex.ru/v2/bot/{token}/message'
     headers = {'Content-Type': 'application/json'}  # Указываем тип содержимого
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=message_data) as response:
@@ -287,21 +287,15 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
             if message.text == lang_dict['connect'][data['lang']]:
-                button_text = 'Хотите связаться с оператором?'
-                button_options = [
-                     {
-                     "type": "textButton",
-                     "label": "Связаться",
-                     "payload": "contact_operator",
-                     "cssClassName": "contact_button"
-                     }
-                                ]
-                message_btn = {
-                   'text': button_text,
-                   'buttons': button_options
-                             }
-                LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Используйте ваш токен интеграции
-                await send_message_to_livetex(LIVETEX_TOKEN, message_btn)
+                button_text = "Хотите связаться с оператором?"
+                button_options = [{"type": "textButton", "label": "Связаться", "payload": "contact_operator", "cssClassName": "contact_button"}]
+                message_data = {'text': button_text, 'buttons': button_options}
+    
+                LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Убедитесь, что используете свой токен интеграции
+                await send_message_to_livetex(LIVETEX_TOKEN, message_data)
+
+    # Можете отправить подтверждение пользователю, что запрос на связь отправлен
+    await message.answer("Запрос на связь с оператором отправлен.")
                 
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
