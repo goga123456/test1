@@ -141,7 +141,7 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
         await bot.send_message(chat_id=message.from_user.id,
                                text="Выберите вариант кнопкой!")
 async def send_message_to_livetex(token, message_data):
-    url = f'https://bot-api.livetex.ru/v2/bot/{token}/message'
+    url = f'https://bot-api.livetex.ru/v1/bot/{token}/message'
     headers = {'Content-Type': 'application/json'}  # Указываем тип содержимого
     async with aiohttp.ClientSession() as session:
         async with session.post(url, headers=headers, json=message_data) as response:
