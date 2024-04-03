@@ -294,8 +294,8 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Убедитесь, что используете свой токен интеграции
                 await send_message_to_livetex(LIVETEX_TOKEN, message_data)
 
-    # Можете отправить подтверждение пользователю, что запрос на связь отправлен
-    await message.answer("Запрос на связь с оператором отправлен.")
+                # Можете отправить подтверждение пользователю, что запрос на связь отправлен
+                await message.answer("Запрос на связь с оператором отправлен.")
                 
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
