@@ -143,22 +143,25 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
     except KeyError:
         await bot.send_message(chat_id=message.from_user.id,
                                text="Выберите вариант кнопкой!")
-async def send_message_to_livetex(token, message_data):
-    url = f'https://bot-api-input.chat.beeline.uz/v1/bot/{token}/text'
-    headers = {'Content-Type': 'application/json'}  # Указываем тип содержимого
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, headers=headers, json=message_data) as response:
-            response_text = await response.text()  # Получаем текст ответа
-            if response.status == 200:
-                print('Сообщение с кнопками успешно отправлено')
-                return response_text
-            else:
-                print(f'Ошибка при отправке сообщения с кнопками: {response.status}, {response_text}')
-                logger.info(f"Отправка запроса к LiveTex: {url}, данные: {message_data}")
-                logger.info(f"Ответ от LiveTex: {response.status}, тело ответа: {response_text}")
-                return None
     
-        
+async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=None):
+    url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/route'
+    data = {}
+    if group_id:
+        data["groupId"] = group_id
+    if operator_id:
+        data["operatorId"] = operator_id
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bot-Api-Token 6:198a480e-38bf-453d-bd82-e383dc3d9829"
+    }
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data, headers=headers) as response:
+            if response.status == 200:
+                return await response.json()
+            else:
+                # Обработка ошибок
+                print("Ошибка при маршрутизации:", await response.text())        
     
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
@@ -294,17 +297,10 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
             if message.text == lang_dict['connect'][data['lang']]:
-                button_text = "Хотите связаться с оператором?"
-                button_options = [{"type": "textButton", "label": "Связаться", "payload": "contact_operator", "cssClassName": "contact_button"}]
-                message_data = {'text': button_text, 'buttons': button_options}
-    
-                LIVETEX_TOKEN = '6:198a480e-38bf-453d-bd82-e383dc3d9829'  # Убедитесь, что используете свой токен интеграции
-                await send_message_to_livetex(LIVETEX_TOKEN, message_data)
-
-                # Можете отправить подтверждение пользователю, что запрос на связь отправлен
-                await message.answer("Запрос на связь с оператором отправлен.")
-                
-                
+                channel_id = "ваш_channel_id"
+                visitor_id = "ваш_visitor_id" 
+                await route_to_operator(channel_id, visitor_id) 
+                await message.answer("Вы были направлены к оператору.")                
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
                 await bot.send_message(chat_id=message.from_user.id,
