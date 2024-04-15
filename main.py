@@ -297,8 +297,8 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
             if message.text == lang_dict['connect'][data['lang']]:
-                channel_id = "ваш_channel_id"
-                visitor_id = "ваш_visitor_id" 
+                channel_id = message.chat.id
+                visitor_id = message.from_user.id
                 await route_to_operator(channel_id, visitor_id) 
                 await message.answer("Вы были направлены к оператору.")                
             if message.text == lang_dict['back'][data['lang']]:
