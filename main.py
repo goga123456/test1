@@ -338,7 +338,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 channel_id = '79'
                 visitor_id = message.from_user.id
                 await route_to_operator(channel_id, visitor_id)
-                await send_text_message(channel_id, visitor_id, message_text)
+                #await send_text_message(channel_id, visitor_id, message_text)
                 await message.answer("Вы были направлены к оператору. Пишите сообщения...")
                 await ProfileStatesGroup.chatting_with_operator.set()
                 # Переводим пользователя в режим чата с оператором
