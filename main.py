@@ -155,7 +155,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
         data["operatorId"] = operator_id
     headers = {
         "Content-Type": "application/json",
-        "Bot-Api-Token": "6:198a480e-38bf-453d-bd82-e383dc3d9829"
+        "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data=data, headers=headers) as response:
@@ -306,7 +306,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 await update_number(updated_num, range_name7)
                 await ProfileStatesGroup.bonus.set()
             if message.text == lang_dict['connect'][data['lang']]:
-                channel_id = '69'
+                channel_id = '79'
                 visitor_id = message.from_user.id
                 await route_to_operator(channel_id, visitor_id) 
                 await message.answer("Вы были направлены к оператору.")                
