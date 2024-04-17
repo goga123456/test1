@@ -11,3 +11,4 @@ class ProfileStatesGroup(StatesGroup):
     beep = State()
     my_home = State()
     bonus = State()
+    chatting_with_operator = State()
