@@ -109,7 +109,7 @@ async def update_number(item1, rang):
     )
     request.execute()
 
-
+"""
 @dp.message_handler(commands=['start'], state='*')
 async def cmd_start(message: types.Message, state: FSMContext) -> None:
     await bot.send_message(chat_id=message.from_user.id,
@@ -117,6 +117,15 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
                            reply_markup=markup_language)
     if state is None:
         return
+    await state.finish()"""
+@dp.message_handler(commands=['start'], state='*')
+async def cmd_start(message: types.Message, state: FSMContext) -> None:
+    current_state = await state.get_state()
+    if current_state == ProfileStatesGroup.chatting_with_operator.state:
+        await message.answer("Чат с оператором завершён.")
+        await state.finish()  # Завершаем состояние чата с оператором
+    else:
+        await message.answer("Выберите язык обслуживания", reply_markup=markup_language)
     await state.finish()
 
 @dp.message_handler(content_types=['text'])
@@ -330,10 +339,15 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 visitor_id = message.from_user.id
                 await route_to_operator(channel_id, visitor_id)
                 await send_text_message(channel_id, visitor_id, message_text)
-                await message.answer("Вы были направлены к оператору.Пишите")
-                await bot.send_message(chat_id=message.from_user.id,
-                                       text="Вы были направлены к оператору.Пишите",
-                                       reply_markup=markup_bonus)
+                await message.answer("Вы были направлены к оператору. Пишите сообщения...")
+                await ProfileStatesGroup.chatting_with_operator.set()
+                # Переводим пользователя в режим чата с оператором
+                @dp.message_handler(state=ProfileStatesGroup.chatting_with_operator)
+                async def send_to_operator(message: types.Message, state: FSMContext):
+                if message.content_type == 'text':
+                    await send_text_message(channel_id, visitor_id, message.text)
+                     
+        
                 
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
