@@ -181,7 +181,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 print(f"Unexpected content type {content_type}. Response: {error_message}")
                 return None  # or raise an exception if that's more appropriate for your application"""
 
-async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
+"""async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     data = {
         "text": message_text,
@@ -200,7 +200,32 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
             else:
                 print("Failed to send message:", await response.text())
                 return None
-    
+    """
+async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
+    url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
+    data = {
+        "text": message_text,
+        "buttons": buttons if buttons else [],
+        "showInput": True
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        # Используйте json=data, а не data=data
+        async with session.post(url, json=data, headers=headers) as response:
+            response_text = await response.text()
+            if response.status == 200:
+                try:
+                    return json.loads(response_text)  # Преобразуйте текст ответа в JSON
+                except json.JSONDecodeError:
+                    print("Failed to parse response as JSON:", response_text)
+                    return None
+            else:
+                print("Failed to send message:", response_text)
+                return None
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
