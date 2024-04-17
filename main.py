@@ -215,7 +215,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
 
     async with aiohttp.ClientSession() as session:
         # Используйте json=data, а не data=data
-        async with session.post(url, json=data, headers=headers) as response:
+        async with session.post(url, data=data, headers=headers) as response:
             response_text = await response.text()
             if response.status == 200:
                 try:
