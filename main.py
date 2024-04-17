@@ -171,6 +171,26 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 error_message = await response.text()
                 print(f"Unexpected content type {content_type}. Response: {error_message}")
                 return None  # or raise an exception if that's more appropriate for your application"""
+
+async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
+    url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
+    data = {
+        "text": message_text,
+        "buttons": buttons if buttons else [],
+        "showInput": True
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data, headers=headers) as response:
+            if response.status == 200:
+                return await response.json()
+            else:
+                print("Failed to send message:", await response.text())
+                return None
     
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
@@ -308,8 +328,13 @@ async def menu(message: types.Message, state: FSMContext) -> None:
             if message.text == lang_dict['connect'][data['lang']]:
                 channel_id = '79'
                 visitor_id = message.from_user.id
-                await route_to_operator(channel_id, visitor_id) 
-                await message.answer("Вы были направлены к оператору.")                
+                await route_to_operator(channel_id, visitor_id)
+                await send_text_message(channel_id, visitor_id, message_text)
+                await message.answer("Вы были направлены к оператору.Пишите")
+                await bot.send_message(chat_id=message.from_user.id,
+                                       text="Вы были направлены к оператору.Пишите",
+                                       reply_markup=markup_bonus)
+                
             if message.text == lang_dict['back'][data['lang']]:
                 await state.finish()
                 await bot.send_message(chat_id=message.from_user.id,
