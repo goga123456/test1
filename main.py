@@ -167,7 +167,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
         "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=data, headers=headers) as response:
+        async with session.post(url, data=data, headers=headers) as response:
             return await response.json()
             """content_type = response.headers.get('Content-Type', '')
             if 'application/json' in content_type:
@@ -215,11 +215,11 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     print(json.dumps(data)) 
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=data, headers=headers) as response:
+        async with session.post(url, data=data, headers=headers) as response:
             response_text = await response.text()
             if response.status == 200:
                 try:
-                    return json.loads(response_text)  # Преобразуйте текст ответа в JSON
+                    return json.dumps(response_text)  # Преобразуйте текст ответа в JSON
                 except json.JSONDecodeError:
                     print("Failed to parse response as JSON:", response_text)
                     return None
