@@ -212,6 +212,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
         "Content-Type": "application/json",
         "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
+    print(json.dumps(data)) 
 
     async with aiohttp.ClientSession() as session:
         # Используйте json=data, а не data=data
