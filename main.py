@@ -154,7 +154,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
     if operator_id:
         data["operatorId"] = operator_id
     headers = {
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
         "Bot-Api-Token": "6:198a480e-38bf-453d-bd82-e383dc3d9829"
     }
     async with aiohttp.ClientSession() as session:
