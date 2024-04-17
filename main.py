@@ -206,7 +206,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     data = {
         "text": message_text,
         "buttons": buttons if buttons else [],
-        "showInput": True
+        "showInput": "True"
     }
     headers = {
         "Content-Type": "application/json",
