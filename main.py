@@ -144,6 +144,8 @@ async def lang_choose(message: types.Message, state: FSMContext) -> None:
         await bot.send_message(chat_id=message.from_user.id,
                                text="Выберите вариант кнопкой!")
     
+     
+
 async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/route'
     data = {}
@@ -157,11 +159,17 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
     }
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=data, headers=headers) as response:
-            if response.status == 200:
-                return await response.json()
+            content_type = response.headers.get('Content-Type', '')
+            if 'application/json' in content_type:
+                if response.status == 200:
+                    return await response.json()
+                else:
+                    print(f"Error: HTTP {response.status}, message: {await response.text()}")
             else:
-                # Обработка ошибок
-                print("Ошибка при маршрутизации:", await response.text())        
+                # Handle non-JSON responses
+                error_message = await response.text()
+                print(f"Unexpected content type {content_type}. Response: {error_message}")
+                return None  # or raise an exception if that's more appropriate for your application
     
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
