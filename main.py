@@ -158,7 +158,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
         "Bot-Api-Token": "6:198a480e-38bf-453d-bd82-e383dc3d9829"
     }
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, json=data, headers=headers) as response:
+        async with session.post(url, data=data, headers=headers) as response:
             return await response.json()
             """content_type = response.headers.get('Content-Type', '')
             if 'application/json' in content_type:
