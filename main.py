@@ -159,7 +159,8 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
     }
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=data, headers=headers) as response:
-            content_type = response.headers.get('Content-Type', '')
+            return await response.json()
+            """content_type = response.headers.get('Content-Type', '')
             if 'application/json' in content_type:
                 if response.status == 200:
                     return await response.json()
@@ -169,7 +170,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 # Handle non-JSON responses
                 error_message = await response.text()
                 print(f"Unexpected content type {content_type}. Response: {error_message}")
-                return None  # or raise an exception if that's more appropriate for your application
+                return None  # or raise an exception if that's more appropriate for your application"""
     
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
