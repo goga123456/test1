@@ -344,8 +344,8 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 # Переводим пользователя в режим чата с оператором
                 @dp.message_handler(state=ProfileStatesGroup.chatting_with_operator)
                 async def send_to_operator(message: types.Message, state: FSMContext):
-                if message.content_type == 'text':
-                    await send_text_message(channel_id, visitor_id, message.text)
+                    if message.content_type == 'text':
+                        await send_text_message(channel_id, visitor_id, message.text)
                      
         
                 
