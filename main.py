@@ -154,14 +154,13 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
     if operator_id:
         data["operatorId"] = operator_id
     headers = {
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
         "Bot-Api-Token": "6:198a480e-38bf-453d-bd82-e383dc3d9829"
     }
-  #application/json
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=data, headers=headers) as response:
             content_type = response.headers.get('Content-Type', '')
-            if 'text/plain' in content_type:
+            if 'application/json' in content_type:
                 if response.status == 200:
                     return await response.json()
                 else:
