@@ -205,7 +205,8 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     data = {
         "text": message_text,
-        "buttons": buttons if buttons else []
+        "buttons": buttons if buttons else [],
+        "showInput": True
     }
     headers = {
         "Content-Type": "application/json",
