@@ -181,31 +181,12 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 print(f"Unexpected content type {content_type}. Response: {error_message}")
                 return None  # or raise an exception if that's more appropriate for your application"""
 
-"""async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
-    url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
-    data = {
-        "text": message_text,
-        "buttons": buttons if buttons else [],
-        "showInput": True
-    }
-    headers = {
-        "Content-Type": "application/json",
-        "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
-    }
 
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=data, headers=headers) as response:
-            if response.status == 200:
-                return await response.json()
-            else:
-                print("Failed to send message:", await response.text())
-                return None
-    """
 async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     data = {
         "text": message_text,
-        "buttons": buttons if buttons else [],
+        "buttons": [],
         "showInput": True
     }
     headers = {
@@ -365,10 +346,11 @@ async def menu(message: types.Message, state: FSMContext) -> None:
             if message.text == lang_dict['connect'][data['lang']]:
                 channel_id = '79'
                 visitor_id = message.from_user.id
-                await route_to_operator(channel_id, visitor_id)
-                #await send_text_message(channel_id, visitor_id, message_text)
-                await message.answer("Вы были направлены к оператору. Пишите сообщения...")
-                await ProfileStatesGroup.chatting_with_operator.set()
+                route_result = await route_to_operator(channel_id, visitor_id)
+                if route_result:
+                    await message.answer("Вы были направлены к оператору. Пишите сообщения...")
+                    await ProfileStatesGroup.chatting_with_operator.set()
+                   
                 # Переводим пользователя в режим чата с оператором
                 @dp.message_handler(state=ProfileStatesGroup.chatting_with_operator)
                 async def send_to_operator(message: types.Message, state: FSMContext):
