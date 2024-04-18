@@ -192,16 +192,15 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
         "Content-Type": "application/json",
         "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
-    print("Response status:", response.status)
-    print("Response headers:", response.headers)
-    print("Response body:", response_text) 
+    
     
 
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload, headers=headers) as response:
             response_text = await response.json()
-            print(f"Response {response_text}")
-            print(f"Status {response.status}")
+            print("Response status:", response.status)
+            print("Response headers:", response.headers)
+            print("Response body:", response.text) 
             
             if response.status == 200:
                 try:
