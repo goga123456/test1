@@ -185,6 +185,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
 async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     payload = {
+        "type": "VisitorTextSent",
         "text": message_text
     }
     headers = {
