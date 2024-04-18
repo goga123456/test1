@@ -184,7 +184,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
 
 async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
-    data = {
+    payload = {
         "text": message_text
     }
     headers = {
@@ -194,7 +194,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     print(json.dumps(data)) 
 
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=data, headers=headers) as response:
+        async with session.post(url, json=payload, headers=headers) as response:
             response_text = await response.json()
             print(f"Response {response_text}")
             print(f"Status {response.status}")
