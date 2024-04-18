@@ -198,8 +198,8 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     async with aiohttp.ClientSession() as session:
         async with session.post(url, data=data, headers=headers) as response:
             response_text = await response.json()
-            print(response_text)
-            print(response.status)
+            print(f"Response {response_text}")
+            print(f"Status {response.status}")
             
             if response.status == 200:
                 try:
