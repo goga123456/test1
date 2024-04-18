@@ -197,7 +197,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
 
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload, headers=headers) as response:
-            response_text = await response.json()
+            response_text = await response.text()
             print("Response status:", response.status)
             print("Response headers:", response.headers)
             print("Response body:", response.text) 
