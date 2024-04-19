@@ -16,6 +16,7 @@ import json
 from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+import uuid
 
 storage = MemoryStorage()
 TOKEN = os.getenv('TOKEN_API')
@@ -181,8 +182,39 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 print(f"Unexpected content type {content_type}. Response: {error_message}")
                 return None  # or raise an exception if that's more appropriate for your application"""
 
+async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text):
+    url = webhook_url
+    unique_id = str(uuid.uuid4())
+    payload = {
+        "type": "VisitorTextSent",
+        "id": unique_id,  # Уникальный идентификатор события, возможно, UUID
+        "createdAt": int(datetime.now().timestamp()),  # Unix timestamp
+        "channelId": channel_id,
+        "channelType": "SocialMedia",  # Тип канала, например, 'Web', 'Mobile', etc.
+        "visitorId": visitor_id,
+        "text": text
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer your_access_token"  # Предполагается, что требуется токен авторизации
+    }
 
-async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=payload, headers=headers) as response:
+            if response.status == 200:
+                try:
+                    response_data = await response.json()
+                    print("Message sent to LiveTex successfully, server response:", response_data)
+                    return response_data
+                except json.JSONDecodeError:
+                    response_text = await response.text()
+                    print("Failed to parse response as JSON:", response_text)
+                    return {'error': 'Failed to parse JSON', 'details': response_text}
+            else:
+                response_text = await response.text()
+                print(f"Failed to send message: {response_text}")
+                return {'error': 'Failed to send message', 'status': response.status, 'details': response_text}
+"""async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     payload = {
         "type": "VisitorTextSent",
@@ -192,9 +224,6 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
         "Content-Type": "application/json",
         "Bot-Api-Token": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
-    
-    
-
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload, headers=headers) as response:
             response_text = await response.text()
@@ -213,7 +242,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
                 return {'info': 'No content returned', 'status': response.status}
             else:
                 print("Error in response")
-                return {'error': 'Error response', 'status': response.status, 'details': response_text}
+                return {'error': 'Error response', 'status': response.status, 'details': response_text}"""
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
@@ -358,9 +387,11 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 # Переводим пользователя в режим чата с оператором
                 @dp.message_handler(state=ProfileStatesGroup.chatting_with_operator)
                 async def send_to_operator(message: types.Message, state: FSMContext):
-                    channel_id = '79'
+                    webhook_url = 'https://t.me/Test_bee_bee_bot'
+                    text = message.text
                     if message.text:
-                        await send_text_message(channel_id, visitor_id, "message.text")
+                        #await send_text_message(channel_id, visitor_id, "message.text")
+                        await send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text)
                      
         
                 
