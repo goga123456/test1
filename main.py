@@ -124,7 +124,7 @@ async def cmd_start(message: types.Message, state: FSMContext) -> None:
     current_state = await state.get_state()
     if current_state == ProfileStatesGroup.chatting_with_operator.state:
         await message.answer("Чат с оператором завершён.")
-        await state.finish()  # Завершаем состояние чата с оператором
+        await state.finish() 
     else:
         await message.answer("Выберите язык обслуживания", reply_markup=markup_language)
     await state.finish()
