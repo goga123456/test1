@@ -201,7 +201,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
             print("Response status:", response.status)
             print("Response headers:", response.headers)
             print("Response body:", response.text)
-            return json.loads(response_text)
+            #return json.loads(response_text)
             
             if response.status == 200:
                 try:
