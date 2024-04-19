@@ -215,6 +215,35 @@ async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text
                 response_text = await response.text()
                 print(f"Failed to send message: {response_text}")
                 return {'error': 'Failed to send message', 'status': response.status, 'details': response_text}
+"""
+async def send_message_to_livetex(webhook_url, channel_id, visitor_id, message_text):
+    # Генерация уникального идентификатора для события
+    event_id = str(uuid.uuid4())
+    # Получение временной метки
+    timestamp = int(datetime.datetime.now().timestamp())
+
+    url = f"{webhook_url}/v1/channel/{channel_id}/visitor/{visitor_id}/text"
+    payload = {
+        "type": "VisitorTextSent",
+        "id": event_id,
+        "createdAt": timestamp,
+        "channelId": channel_id,
+        "text": message_text,
+        "showInput": True  # Значение по умолчанию
+    }
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_LIVETEX_TOKEN"  # Вставьте ваш токен интеграции
+    }
+
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=payload, headers=headers) as response:
+            if response.status == 200:
+                response_data = await response.json()
+                print("Message sent to LiveTex:", response_data)
+            else:
+                content = await response.text()
+                print("Failed to send message to LiveTex:", content)"""
 """async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
     url = f'https://bot-api-input.chat.beeline.uz/v1/channel/{channel_id}/visitor/{visitor_id}/text'
     payload = {
@@ -388,7 +417,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 # Переводим пользователя в режим чата с оператором
                 @dp.message_handler(state=ProfileStatesGroup.chatting_with_operator)
                 async def send_to_operator(message: types.Message, state: FSMContext):
-                    webhook_url = 'https://t.me/Test_bee_bee_bot'
+                    webhook_url = 'https://bot-api-input.chat.beeline.uz'
                     text = message.text
                     if message.text:
                         #await send_text_message(channel_id, visitor_id, "message.text")
