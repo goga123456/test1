@@ -202,15 +202,15 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
             print("Response headers:", response.headers)
             print("Response body:", response.text)
             #return json.loads(response_text)
-            if response.status == 200:
+            if response_text:
                 try:
                     return json.loads(response_text)
                 except json.JSONDecodeError:
                     print("Failed to parse response as JSON:", response_text)
-                    return None
+                    return {'error': 'Failed to parse JSON', 'response': response_text}
             else:
-                print("Failed to send message:", response_text)
-                return None
+                print("Received an empty response")
+                return {'error': 'Empty response', 'status': response.status}
 @dp.message_handler(content_types=types.ContentType.TEXT, state=ProfileStatesGroup.razdel)
 async def menu(message: types.Message, state: FSMContext) -> None:
     try:
