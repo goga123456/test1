@@ -183,6 +183,7 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 return None  # or raise an exception if that's more appropriate for your application"""
 
 async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text):
+    url = f"{webhook_url}/v1/channel/{channel_id}/visitor/{visitor_id}/text"
     current_time = datetime.now()
     unique_id = str(uuid.uuid4())
     payload = {
@@ -198,7 +199,6 @@ async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text
         "Content-Type": "application/json",
         "Authorization": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
-    url = f"{webhook_url}/v1/channel/{channel_id}/visitor/{visitor_id}/text"
 
     async with aiohttp.ClientSession() as session:
         async with session.post(url, json=payload, headers=headers) as response:
