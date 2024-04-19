@@ -190,13 +190,13 @@ async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text
         "id": unique_id,  # Уникальный идентификатор события, возможно, UUID
         "createdAt": int(datetime.now().timestamp()),  # Unix timestamp
         "channelId": channel_id,
-        "channelType": "SocialMedia",  # Тип канала, например, 'Web', 'Mobile', etc.
+        "channelType": "SocialMedia",
         "visitorId": visitor_id,
         "text": text
     }
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer your_access_token"  # Предполагается, что требуется токен авторизации
+        "Authorization": "Bearer your_access_token"
     }
 
     async with aiohttp.ClientSession() as session:
