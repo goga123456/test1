@@ -183,7 +183,6 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
                 return None  # or raise an exception if that's more appropriate for your application"""
 
 async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text):
-    url = webhook_url
     current_time = datetime.now()
     unique_id = str(uuid.uuid4())
     payload = {
