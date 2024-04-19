@@ -202,12 +202,13 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
             print("Response headers:", response.headers)
             print("Response body:", response.text)
             #return json.loads(response_text)
-            if response_text:
+            if response_text.strip():  # Проверяем, не пустой ли текст
                 try:
-                    return json.loads(response_text)
+                    response_data = json.loads(response_text)
+                    return response_data
                 except json.JSONDecodeError:
                     print("Failed to parse response as JSON:", response_text)
-                    return {'error': 'Failed to parse JSON', 'response': response_text}
+                    return {'error': 'Failed to parse JSON', 'details': response_text}
             else:
                 print("Received an empty response")
                 return {'error': 'Empty response', 'status': response.status}
