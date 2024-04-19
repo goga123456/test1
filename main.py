@@ -1,4 +1,4 @@
-.import aiohttp
+import aiohttp
 import logging
 import os
 import requests
