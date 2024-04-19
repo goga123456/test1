@@ -206,6 +206,7 @@ async def send_text_message(channel_id, visitor_id, message_text, buttons=None):
             if response.status == 200:
                 try:
                     return json.dumps(response_text)  # Преобразуйте текст ответа в JSON
+                    print(json.dumps(response_text))
                 except json.JSONDecodeError:
                     print("Failed to parse response as JSON:", response_text)
                     return None
