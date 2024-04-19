@@ -197,7 +197,7 @@ async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text
     }
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer your_access_token"
+        "Authorization": "6:1231d10d-18a4-4815-adf1-712f2b16b258"
     }
 
     async with aiohttp.ClientSession() as session:
