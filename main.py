@@ -358,7 +358,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 async def send_to_operator(message: types.Message, state: FSMContext):
                     channel_id = '79'
                     if message.content_type == 'text':
-                        await send_text_message(channel_id, visitor_id, message.text)
+                        await send_text_message(channel_id, visitor_id, "message.text")
                      
         
                 
