@@ -184,11 +184,12 @@ async def route_to_operator(channel_id, visitor_id, group_id=None, operator_id=N
 
 async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text):
     url = webhook_url
+    current_time = datetime.now()
     unique_id = str(uuid.uuid4())
     payload = {
         "type": "VisitorTextSent",
         "id": unique_id,  # Уникальный идентификатор события, возможно, UUID
-        "createdAt": int(datetime.now().timestamp()),  # Unix timestamp
+        "createdAt": int(current_time.timestamp()),  # Unix timestamp
         "channelId": channel_id,
         "channelType": "SocialMedia",
         "visitorId": visitor_id,
