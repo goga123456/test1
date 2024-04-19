@@ -1,4 +1,4 @@
-import aiohttp
+.import aiohttp
 import logging
 import os
 import requests
@@ -208,7 +208,7 @@ async def send_user_message_to_livetex(webhook_url, channel_id, visitor_id, text
                     return response_data
                 except json.JSONDecodeError:
                     response_text = await response.text()
-                    print("Failed to parse response as JSON:", response_text)
+                    print("Failed to parse response as JSON", response_text)
                     return {'error': 'Failed to parse JSON', 'details': response_text}
             else:
                 response_text = await response.text()
@@ -381,7 +381,7 @@ async def menu(message: types.Message, state: FSMContext) -> None:
                 visitor_id = message.from_user.id
                 route_result = await route_to_operator(channel_id, visitor_id)
                 if route_result:
-                    await message.answer("Вы были направлены к оператору. Пишите сообщения...")
+                    await message.answer("Вы были направлены к оператору. Пишите сообщения")
                     await ProfileStatesGroup.chatting_with_operator.set()
                    
                 # Переводим пользователя в режим чата с оператором
